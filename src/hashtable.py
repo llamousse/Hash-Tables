@@ -69,17 +69,55 @@ class HashTable:
         Print a warning if the key is not found.
         Fill this in.
         '''
-        pass
+        
+        hashed_mod_key = self._hash_mod(key)
+        if self.storage[hashed_mod_key] == None:
+            print('Key not found, cannot delete!')
+        else:
+            tempKey = 0
+            currentKey = self.storage[hashed_mod_key]
+
+            while currentKey:
+                if currentKey.key == key:
+                    if currentKey.next != None:
+                        if temp == None:
+                            self.storage[hashed_mod_key] = currentKey.next
+                            self.count -= 1
+                            return
+                        else:
+                            tempKey.next = currentKey.next
+                            self.count -= 1
+                            return
+                    else:
+                        if temp == None:
+                            self.storage[hashed_mod_key] = None
+                            self.count -= 1
+                            return
+                        else:
+                            tempKey.next = None
+                            self.count -= 1
+                            return
+                else:
+                    tempKey = currentKey
+                    currentKey = currentKey.next
+            print('Key not found, cannot remove')
 
     def retrieve(self, key):
         '''
         Retrieve the value stored with the given key.
-
         Returns None if the key is not found.
-
         Fill this in.
         '''
-        pass
+        
+        hashedKey = self._hash_mod(key)
+        currentKey = self.storage[hashedKey]
+
+        while currentKey:
+            if currentKey.key != key:
+                currentKey = currentKey.next
+            else:
+                return currentKey.value
+        return None
 
     def resize(self):
         '''
